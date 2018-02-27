@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILELIST=`find ./ -maxdepth 1 -type f`
+FILELIST=`find ./ -maxdepth 1 -type f | sed 's/\.\///g'`
 PS3="Select file to view: "
 
 select FILENAME in $FILELIST "Exit Program"; 
