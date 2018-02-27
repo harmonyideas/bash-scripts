@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 x=0
 y=0

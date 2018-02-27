@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 apache_log_dir='/var/log/apache2'
 combined_log_files='goaccess_tmp.log'
