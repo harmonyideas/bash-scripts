@@ -1,9 +1,9 @@
 #!/bin/bash
 
-FILELIST=`find ./ -maxdepth 1 -type f | sed 's/\.\///g'`
-PS3="Select file to view: "
+FILELIST=(`find ./ -maxdepth 1 -type f | sed 's/\.\///g'`)
+PS3="Select file to view or ($(expr ${#FILELIST[@]} + 1)) to exit: "
 
-select FILENAME in $FILELIST "Exit Program"; 
+select FILENAME in ${FILELIST[@]} "Exit Program"; 
 do
     if  [ ! "$FILENAME" ]
     then
