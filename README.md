@@ -1,5 +1,5 @@
 # collection-of-bash-scripts
-This project contains a collection of short scripts I have written in Bash. 
+This project contains a collection of short scripts written in Bash. 
 
 File Name      | Description
 ------------- | -------------  
