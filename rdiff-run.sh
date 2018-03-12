@@ -13,7 +13,7 @@ if [ -x "/usr/bin/rdiff-backup" ] && [ -d $LOCALDIR ]
 then
     $(/usr/bin/rdiff-backup -v${VERBOSE} ${USER}@${REMOTEHOST}::${REMOTEDIR} ${LOCALDIR})
     [ "$?" -gt "0" ] && logger "$0: rdiff-backup of ${REMOTEDIR} has failed!" || 
-    rdiff-backup-statistics --begin-time `date '+%Y-%m-%d'` ${LOCALDIR} # Display backup stats
+    rdiff-backup-statistics --begin-time `date '+%Y-%m-%d'` ${LOCALDIR} # Display backup stats for current day
 else
     echo "Command failed to run - please check rdiff-backup exists and ${LOCALDIR} is accessible!"
 fi
