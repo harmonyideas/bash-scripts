@@ -10,7 +10,7 @@ host='myhost'
 backup_user='myuser'
 begin_time=$(date +%Y-%m-%d) # today's date
 error="$0: Backup of ${host_dir:-'target'} failed."
-success="$0: Backup of ${host_dir:='target'} successful."
+success="$0: Backup of ${host_dir:-'target'} successful."
 options=("Run rdiff-backup" "Print Statistics")
 PS3="Select option or ($(expr ${#options[@]} + 1)) to exit: "
 ### END INIT ###
