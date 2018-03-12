@@ -40,7 +40,9 @@ do
         "Print Statistics")
             rdiff-backup-statistics --begin-time "${begin_time}" "${local_dir}"
             ;;
-        "Quit") break ;;
+        "Quit") 
+            break 
+            ;;
         *) echo "Invalid option selected";;
     esac
 done
