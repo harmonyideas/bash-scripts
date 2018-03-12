@@ -13,7 +13,7 @@ options=("Run rdiff-backup" "Print Statistics")
 PS3="Select option or ($(expr ${#options[@]} + 1)) to exit:"
 ### END INIT ###
 
-function run_backup() {
+run_backup() {
     local host='myhost'
     local backup_user='myuser'
     $(/usr/bin/rdiff-backup -v"$verbose" \
@@ -38,7 +38,7 @@ do
             fi
             ;;
         "Print Statistics")
-            rdiff-backup-statistics --begin-time "${begin_time}" "${local_dir}" 
+            rdiff-backup-statistics --begin-time "${begin_time}" "${local_dir}"
             ;;
         "Quit") break ;;
         *) echo "Invalid option selected";;
