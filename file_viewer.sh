@@ -4,25 +4,25 @@
 # and put them into array FILELIST. Use sed to remove ./
 # from filenames
  
-FILELIST=(`find ./ -maxdepth 1 -type f | sed 's/\.\///g'`)
+filelist=(`find ./ -maxdepth 1 -type f | sed 's/\.\///g'`)
 
 # Create prompt for user to select files and process 
 # input using select statement.  Find max length of 
 # array and add 1 to display choice to exit.  If no
 # file is found - display error message to user
  
-PS3="Select file to view or ($(expr ${#FILELIST[@]} + 1)) to exit: "
+PS3="Select file to view or ($(expr ${#filelist[@]} + 1)) to exit: "
 
-select FILENAME in ${FILELIST[@]} "Exit Program"; 
+select filename in ${filelist[@]} "Exit Program"; 
 do
-    if  [ ! "$FILENAME" ]
+    if  [ ! "$filename" ]
     then
 	echo "No file found, please select a valid option "
         continue
     fi
     	
-    case $FILENAME in
+    case $filename in
         "Exit Program") break ;;
-        *) less $FILENAME ;;
+        *) less $filename ;;
     esac
 done
