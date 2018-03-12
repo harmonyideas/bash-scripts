@@ -12,6 +12,7 @@ begin_time=$(date +%Y-%m-%d) # today's date
 error="$0: Backup of ${host_dir:-'target'} failed."
 success="$0: Backup of ${host_dir:='target'} successful."
 options=("Run rdiff-backup" "Print Statistics")
+PS3="Select option or ($(expr ${#options[@]} + 1)) to exit: "
 ### END INIT ###
 
 if [ -n "$PS1" ]; then
@@ -20,7 +21,6 @@ if [ -n "$PS1" ]; then
     [ "$?" -gt "0" ] && logger "${error}" || logger "${success}"
 else
 
-PS3="Select option or ($(expr ${#options[@]} + 1)) to exit: "
 
 select option in "${options[@]}" "Quit";
 do
