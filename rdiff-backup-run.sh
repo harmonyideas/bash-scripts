@@ -20,7 +20,7 @@ function run_backup() {
     "${backup_user}"@"${host}"::"${remote_dir}" "${local_dir}")
 }
 
-# Is the shell interactive? If not, display prompt
+# Is shell interactive? Yes:[display prompt] No:[run_backup]
 if [ -n "$PS1" ]; then
     run_backup
     [ "$?" -gt "0" ] && logger "${error}" || logger "${success}"
