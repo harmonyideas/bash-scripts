@@ -21,7 +21,6 @@ if [ -n "$PS1" ]; then
     [ "$?" -gt "0" ] && logger "${error}" || logger "${success}"
 else
 
-
 select option in "${options[@]}" "Quit";
 do
     case $option in
