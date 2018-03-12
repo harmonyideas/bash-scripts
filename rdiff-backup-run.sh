@@ -28,8 +28,7 @@ do
             if [ -x "/usr/bin/rdiff-backup" ] && [ -d "$local_dir" ]; then
                 $(/usr/bin/rdiff-backup -v"${verbose}" \
                 "${backup_user}"@"${host}"::"${host_dir}" "${local_dir}")
-                [ "$?" -gt "0" ] &&
-                echo "${error}" || echo "${success}"
+                [ "$?" -gt "0" ] && echo "${error}" || echo "${success}"
             else
                 echo "rdiff-backup not found or local directory inaccessible"
             fi
