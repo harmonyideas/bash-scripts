@@ -11,13 +11,13 @@ backup_user='myuser'
 begin_time=$(date +%Y-%m-%d) # today's date
 error="$0: Backup of ${host_dir:-'target'} failed."
 success="$0: Backup of ${host_dir:='target'} successful."
-options=("Run" "Print Statistics")
+options=("Run rdiff-backup" "Print Statistics")
 ### END INIT ###
 
 if [ -n "$PS1" ]; then
     $(/usr/bin/rdiff-backup -v"${verbose}" \
     "${backup_user}"@$"{host}"::"${host_dir}" "${local_dir}")
-    [ "$?" -gt "0" ] && logger ${error}
+    [ "$?" -gt "0" ] && logger "${error}" || logger "${success}"
 else
 
 PS3="Select option or ($(expr ${#options[@]} + 1)) to exit: "
@@ -25,13 +25,12 @@ PS3="Select option or ($(expr ${#options[@]} + 1)) to exit: "
 select option in "${options[@]}" "Quit";
 do
     case $option in
-        "Run")
+        "Run rdiff-backup")
             if [ -x "/usr/bin/rdiff-backup" ] && [ -d "$local_dir" ]; then
                 $(/usr/bin/rdiff-backup -v"${verbose}" \
                 "${backup_user}"@"${host}"::"${host_dir}" "${local_dir}")
                 [ "$?" -gt "0" ] &&
-                logger "${error}" \
-                || echo "${success}"
+                echo "${error}" || echo "${success}"
             else
                 echo "rdiff-backup not found or local directory inaccessible"
             fi
