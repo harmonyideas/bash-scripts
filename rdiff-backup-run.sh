@@ -1,21 +1,46 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # A simple bash script for rdiff-backup.
 # requires ssh key based authentication 
- 
-# Set options
-VERBOSE=1 # set verbose level
-REMOTEDIR='/some/remote/folder' # directory on remote host
-LOCALDIR='/some/local/folder/' # directory on local host
-REMOTEHOST='remotehost' # name of remote host accessible by ssh
-USER='user' # remote ssh user
 
-if [ -x "/usr/bin/rdiff-backup" ] && [ -d $LOCALDIR ]
-then
-    $(/usr/bin/rdiff-backup -v${VERBOSE} ${USER}@${REMOTEHOST}::${REMOTEDIR} ${LOCALDIR})
-    [ "$?" -gt "0" ] && logger "$0: rdiff-backup of ${REMOTEDIR} has failed!" || 
-    rdiff-backup-statistics --begin-time `date '+%Y-%m-%d'` ${LOCALDIR} # Display backup stats for current day
+### BEGIN INIT ###
+verbose=1 # set verbose level
+host_dir='/some/remote/path' # directory on remote host
+local_dir='/some/local/path'
+host='myhost'
+backup_user='myuser'
+begin_time=$(date +%Y-%m-%d) # today's date
+error="$0: Backup of ${host_dir:-'target'} failed."
+success="$0: Backup of ${host_dir:='target'} successful."
+options=("Run" "Print Statistics")
+### END INIT ###
+
+if [ -n "$PS1" ]; then
+    $(/usr/bin/rdiff-backup -v"${verbose}" \
+    "${backup_user}"@$"{host}"::"${host_dir}" "${local_dir}")
+    [ "$?" -gt "0" ] && logger ${error}
 else
-    echo "Command failed to run - please check rdiff-backup exists and ${LOCALDIR} is accessible!"
+
+PS3="Select option or ($(expr ${#options[@]} + 1)) to exit: "
+
+select option in "${options[@]}" "Quit";
+do
+    case $option in
+        "Run")
+            if [ -x "/usr/bin/rdiff-backup" ] && [ -d "$local_dir" ]; then
+                $(/usr/bin/rdiff-backup -v"${verbose}" \
+                "${backup_user}"@"${host}"::"${host_dir}" "${local_dir}")
+                [ "$?" -gt "0" ] &&
+                logger "${error}" \
+                || echo "${success}"
+            else
+                echo "rdiff-backup not found or local directory inaccessible"
+            fi
+            ;;
+        "Print Statistics")
+            rdiff-backup-statistics --begin-time "${begin_time}" "${local_dir}" # Display backup stats
+            ;;
+        "Quit") break ;;
+        *) echo "Invalid option selected";;
+    esac
+done
 fi
-
-
