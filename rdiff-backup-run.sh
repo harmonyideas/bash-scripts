@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 ### BEGIN INIT ###
 host_dir='/path/remote/dir' # directory on remote host
 local_dir='/path/local/dir' # directory to store backups
@@ -19,29 +21,32 @@ get_statistics() {
     /usr/bin/rdiff-backup-statistics $stat_options "${local_dir}"
 }
 
+# Are we running interactively?
 if [ -n "$PS1" ]; then
     run_backup
     [ "$?" -gt "0" ] && logger "Backup Failed." \
     || logger "Backup was successful"
 else
 
+# Display prompt to user
 select option in "${menu_options[@]}" "Quit";
 do
     case $option in
         "Run rdiff-backup")
+            # Check path of binary and local storage
             if [ -x "/usr/bin/rdiff-backup" ] && [ -d "${local_dir}" ]; then
                 run_backup
-                [ "$?" -gt "0" ] && echo "$0: Backup Failed." \
-                || echo "$0: Backup was successful."
+                [ "$?" -gt "0" ] && printf "rdiff-backup failed, please check log" \
+                || printf "rdiff-backup was successful. \n"
             else
-                echo "rdiff-backup not found or local directory inaccessible"
+                printf "rdiff-backup not found or local path inaccessible"
             fi
             ;;
         "Print Statistics")
             get_statistics
             ;;
         "Quit") break ;;
-        *) echo "Invalid option selected";;
+        *) printf "Invalid option selected";;
     esac
 done
 fi
