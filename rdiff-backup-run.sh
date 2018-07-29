@@ -46,7 +46,7 @@ do
             get_statistics
             ;;
         "Quit") break ;;
-        *) printf "Invalid option selected";;
+        *) printf "Invalid option selected \n";;
     esac
 done
 fi
