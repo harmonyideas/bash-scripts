@@ -11,7 +11,6 @@
 set -eu
 
 if [ -x /opt/letsencrypt/certbot-auto ]; then
-    python -c 'import random; import time; time.sleep(random.random() * 3600)' && \
     /opt/letsencrypt/certbot-auto renew --quiet
 else
     exit 1
